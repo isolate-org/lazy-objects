@@ -1,0 +1,32 @@
+{
+    "name": "coduo/lazy-objects",
+    "description": "Lazy objects builder",
+    "require": {
+        "ocramius/proxy-manager": "~1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.4.*",
+        "phpspec/phpspec": "2.1.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Coduo\\LazyObjects": "src/",
+            "Coduo\\LazyObjects\\Tests": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Norbert Orzechowicz",
+            "email": "norbert@orzechowicz.pl"
+        }
+    ]
+}
