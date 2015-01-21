@@ -6,14 +6,13 @@
 
 Why should you use laze objects in your project?
 Because domain is the most important thing in application and your job is to keep it clean.
-Your professional responsibility is to keep your domain fair from the implementation details like
+Your professional responsibility is to keep your domain far from the implementation details like
 for example data storage.
 
 Ok, but lets talk how lazy objects are going to help you with that.
 Lets assume that you are working on new application for Github in php that use Github Api.
 
-As you probably already know Github is based on community, without users it would be more or less just another hosting
-for repositories. Every user have right to create as many repositories as he want (sometimes he needs to pay for them but
+As you probably already know Github is based on community, without users it would be more or less just another hosting for git repositories. Every user have right to create as many repositories as he want (sometimes he needs to pay for them but
 do not think about that now).
 
 Lets create our User class first
