@@ -4,7 +4,7 @@ namespace Coduo\LazyObjects;
 
 use Coduo\LazyObjects\Proxy\Definition;
 use Coduo\LazyObjects\Proxy\Factory;
-use Zend\Code\Exception\RuntimeException;
+use Coduo\LazyObjects\Exception\RuntimeException;
 
 class Wrapper
 {
@@ -46,6 +46,7 @@ class Wrapper
     /**
      * @param $object
      * @return mixed
+     * @throws RuntimeException
      */
     public function wrap($object)
     {

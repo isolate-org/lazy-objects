@@ -30,4 +30,39 @@ class WrapperTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(get_class($entity), $proxy);
         $this->assertSame($expectedResults, $proxy->getItems());
     }
+
+    function test_replaced_object_instance()
+    {
+        $entity = new EntityFake();
+
+        $entityProxyDefinition = new Definition(
+            new ClassName(get_class($entity)),
+            new Methods([
+                new Method("getItems", new EntityFake\GetItemReplacementStub([]))
+            ])
+        );
+
+        $wrapper = new Wrapper(new Factory(), [$entityProxyDefinition]);
+        $proxy = $wrapper->wrap($entity);
+
+        $this->assertInstanceOf("Coduo\\LazyObjects\\WrappedObject", $proxy);
+    }
+
+    function test_getting_wrapped_object()
+    {
+        $entity = new EntityFake();
+
+        $entityProxyDefinition = new Definition(
+            new ClassName(get_class($entity)),
+            new Methods([
+                new Method("getItems", new EntityFake\GetItemReplacementStub([]))
+            ])
+        );
+
+        $wrapper = new Wrapper(new Factory(), [$entityProxyDefinition]);
+
+        /* @var \Coduo\LazyObjects\WrappedObject $proxy*/
+        $proxy = $wrapper->wrap($entity);
+        $this->assertSame($proxy->getWrappedObject(), $entity);
+    }
 }

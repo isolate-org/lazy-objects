@@ -2,17 +2,17 @@
 
 namespace Coduo\LazyObjects\Proxy\Adapter\OcramiusProxyManager;
 
+use Coduo\LazyObjects\Proxy\Adapter\OcramiusProxyManager\Factory\LazyObjectsFactory;
 use Coduo\LazyObjects\Proxy\Definition;
 use Coduo\LazyObjects\Proxy\Factory as BaseFactory;
-use ProxyManager\Factory\AccessInterceptorValueHolderFactory;
 
 class Factory implements BaseFactory
 {
-    private $accessInterceptorFactory;
+    private $lazyObjectsFactory;
 
     public function __construct()
     {
-        $this->accessInterceptorFactory = new AccessInterceptorValueHolderFactory();
+        $this->lazyObjectsFactory = new LazyObjectsFactory();
     }
 
     /**
@@ -31,7 +31,7 @@ class Factory implements BaseFactory
             };
         }
 
-        return $this->accessInterceptorFactory->createProxy(
+        return $this->lazyObjectsFactory->createProxy(
             $object,
             $proxyMethods
         );
