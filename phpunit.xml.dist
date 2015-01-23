@@ -11,13 +11,13 @@
          bootstrap="tests/bootstrap.php"
         >
     <testsuites>
-        <testsuite name="Coduo Lazy Objects Suite">
+        <testsuite name="Lazy Objects test suite">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist>
-            <directory>./src/Coduo/LazyObjects/</directory>
+            <directory>./src/Isolate/LazyObjects/</directory>
         </whitelist>
     </filter>
 </phpunit>

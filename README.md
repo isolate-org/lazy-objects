@@ -116,7 +116,7 @@ First we need to create a Replacement for that method.
 
 namespace Github\User\Proxy\Method;
 
-use Coduo\LazyObjects\Proxy\Method\Replacement;
+use Isolate\LazyObjects\Proxy\Method\Replacement;
 
 class GetPublicRepositories implements Replacement
 {
@@ -154,13 +154,13 @@ Now we need to create a proxy definition for our Github\User class, add it into 
 ```php
 <?php
 
-use Coduo\LazyObjects\Proxy\Adapter\OcramiusProxyManager\Factory;
-use Coduo\LazyObjects\Proxy\ClassName;
-use Coduo\LazyObjects\Proxy\Definition;
-use Coduo\LazyObjects\Proxy\Method;
-use Coduo\LazyObjects\Proxy\Methods;
-use Coduo\LazyObjects\Tests\Double\EntityFake;
-use Coduo\LazyObjects\Wrapper;
+use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\Factory;
+use Isolate\LazyObjects\Proxy\ClassName;
+use Isolate\LazyObjects\Proxy\Definition;
+use Isolate\LazyObjects\Proxy\Method;
+use Isolate\LazyObjects\Proxy\Methods;
+use Isolate\LazyObjects\Tests\Double\EntityFake;
+use Isolate\LazyObjects\Wrapper;
 
 $httpClient = new HttpClient('http://api.github.com');
 

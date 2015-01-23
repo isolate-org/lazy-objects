@@ -1,5 +1,5 @@
 {
-    "name": "coduo/lazy-objects",
+    "name": "isolate/lazy-objects",
     "description": "Lazy objects builder",
     "require": {
         "ocramius/proxy-manager": "~1.0"
@@ -10,8 +10,8 @@
     },
     "autoload": {
         "psr-0": {
-            "Coduo\\LazyObjects": "src/",
-            "Coduo\\LazyObjects\\Tests": "tests/"
+            "Isolate\\LazyObjects": "src/",
+            "Isolate\\LazyObjects\\Tests": "tests/"
         }
     },
     "extra": {
