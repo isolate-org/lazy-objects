@@ -45,7 +45,7 @@ class Wrapper
 
     /**
      * @param $object
-     * @return mixed
+     * @return WrappedObject
      * @throws RuntimeException
      */
     public function wrap($object)
