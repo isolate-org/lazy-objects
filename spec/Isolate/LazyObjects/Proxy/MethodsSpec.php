@@ -27,7 +27,7 @@ class MethodsSpec extends ObjectBehavior
 
     function it_has_methods_that_was_used_to_create_collection(Method\Replacement $replacement)
     {
-        $this->beConstructedWith([new Method("foo", $replacement->getWrappedObject())]);
+        $this->beConstructedWith([new Method(new Method\Name("foo"), $replacement->getWrappedObject())]);
         $this->has("foo")->shouldReturn(true);
     }
 }

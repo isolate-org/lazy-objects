@@ -3,6 +3,7 @@
 namespace Isolate\LazyObjects\Proxy;
 
 use Isolate\LazyObjects\Exception\InvalidArgumentException;
+use Isolate\LazyObjects\Proxy\Method\Name;
 use Isolate\LazyObjects\Proxy\Method\Replacement;
 
 class Method
@@ -18,18 +19,21 @@ class Method
     private $replacement;
 
     /**
-     * @param $name
+     * @var string
+     */
+    private $targetPropertyName;
+
+    /**
+     * @param Name $name
      * @param Replacement $replacement
+     * @param $targetPropertyName
      * @throws InvalidArgumentException
      */
-    public function __construct($name, Replacement $replacement)
+    public function __construct(Name $name, Replacement $replacement, $targetPropertyName = null)
     {
-        if (empty($name)) {
-            throw new InvalidArgumentException("Method name can't be empty.");
-        }
-
         $this->name = $name;
         $this->replacement = $replacement;
+        $this->targetPropertyName = $targetPropertyName;
     }
 
     /**
@@ -41,7 +45,7 @@ class Method
     }
 
     /**
-     * @return string
+     * @return Name
      */
     public function getName()
     {
@@ -54,6 +58,22 @@ class Method
      */
     public function hasName($name)
     {
-        return $this->name === $name;
+        return (string) $this->name === $name;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasDefinedTargetProperty()
+    {
+        return !is_null($this->targetPropertyName);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTargetPropertyName()
+    {
+        return $this->targetPropertyName;
     }
 }

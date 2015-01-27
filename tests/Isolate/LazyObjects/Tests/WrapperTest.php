@@ -2,6 +2,9 @@
 
 namespace Isolate\LazyObjects\Tests;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Isolate\LazyObjects\Object\PropertyValueSetter;
+use Isolate\LazyObjects\Object\Value\AssemblerFactory;
 use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\Factory;
 use Isolate\LazyObjects\Proxy\ClassName;
 use Isolate\LazyObjects\Proxy\Definition;
@@ -20,11 +23,11 @@ class WrapperTest extends \PHPUnit_Framework_TestCase
         $entityProxyDefinition = new Definition(
             new ClassName(get_class($entity)),
             new Methods([
-                new Method("getItems", new EntityFake\GetItemReplacementStub($expectedResults))
+                new Method(new Method\Name("getItems"), new EntityFake\GetItemReplacementStub($expectedResults))
             ])
         );
 
-        $wrapper = new Wrapper(new Factory(), [$entityProxyDefinition]);
+        $wrapper = $this->createWrapper($entityProxyDefinition);
         $proxy = $wrapper->wrap($entity);
 
         $this->assertInstanceOf(get_class($entity), $proxy);
@@ -38,11 +41,11 @@ class WrapperTest extends \PHPUnit_Framework_TestCase
         $entityProxyDefinition = new Definition(
             new ClassName(get_class($entity)),
             new Methods([
-                new Method("getItems", new EntityFake\GetItemReplacementStub([]))
+                new Method(new Method\Name("getItems"), new EntityFake\GetItemReplacementStub([]))
             ])
         );
 
-        $wrapper = new Wrapper(new Factory(), [$entityProxyDefinition]);
+        $wrapper = $this->createWrapper($entityProxyDefinition);
         $proxy = $wrapper->wrap($entity);
 
         $this->assertInstanceOf("Isolate\\LazyObjects\\WrappedObject", $proxy);
@@ -55,14 +58,102 @@ class WrapperTest extends \PHPUnit_Framework_TestCase
         $entityProxyDefinition = new Definition(
             new ClassName(get_class($entity)),
             new Methods([
-                new Method("getItems", new EntityFake\GetItemReplacementStub([]))
+                new Method(new Method\Name("getItems"), new EntityFake\GetItemReplacementStub([]))
             ])
         );
 
-        $wrapper = new Wrapper(new Factory(), [$entityProxyDefinition]);
+        $wrapper = $this->createWrapper($entityProxyDefinition);
 
         /* @var \Isolate\LazyObjects\WrappedObject $proxy*/
         $proxy = $wrapper->wrap($entity);
         $this->assertSame($proxy->getWrappedObject(), $entity);
+    }
+
+    function test_replacing_single_method_on_entity_with_target_property()
+    {
+        $expectedResults = ["foo", "bar", "baz"];
+        $entity = new EntityFake();
+
+        $entityProxyDefinition = new Definition(
+            new ClassName(get_class($entity)),
+            new Methods([
+                new Method(new Method\Name("getItems"), new EntityFake\GetItemReplacementStub($expectedResults), 'items')
+            ])
+        );
+
+        $wrapper = $this->createWrapper($entityProxyDefinition);
+        $proxy = $wrapper->wrap($entity);
+
+        $this->assertInstanceOf(get_class($entity), $proxy);
+        $this->assertSame($expectedResults, $proxy->getItems());
+        $this->assertEqualsPropertyValue($expectedResults, $proxy->getWrappedObject(), 'items');
+    }
+
+    function test_replacing_single_method_on_entity_with_target_property_when_property_value_is_an_array_that_is_not_empty()
+    {
+        $replacedResults = ["foo", "bar", "baz"];
+        $expectedResults = ["foo", "bar", "baz", "foz"];
+        $entity = new EntityFake();
+
+        $entityProxyDefinition = new Definition(
+            new ClassName(get_class($entity)),
+            new Methods([
+                new Method(new Method\Name("getItems"), new EntityFake\GetItemReplacementStub($replacedResults), 'items')
+            ])
+        );
+
+        $wrapper = $this->createWrapper($entityProxyDefinition);
+        $proxy = $wrapper->wrap($entity);
+        $proxy->addItem("foz");
+
+        $this->assertInstanceOf(get_class($entity), $proxy);
+        $this->assertSame($expectedResults, $proxy->getItems());
+        $this->assertEqualsPropertyValue($expectedResults, $proxy->getWrappedObject(), 'items');
+    }
+
+    function test_replacing_single_method_on_entity_with_target_property_when_property_value_is_an_traversable_array_object_that_is_not_empty()
+    {
+        $replacedResults = new ArrayCollection(["foo", "bar", "baz"]);
+        $expectedResults = new ArrayCollection(["foo", "bar", "baz", "foz"]);
+        $entity = new EntityFake(new ArrayCollection([]));
+
+        $entityProxyDefinition = new Definition(
+            new ClassName(get_class($entity)),
+            new Methods([
+                new Method(new Method\Name("getItems"), new EntityFake\GetItemReplacementStub($replacedResults), 'items')
+            ])
+        );
+
+        $wrapper = $this->createWrapper($entityProxyDefinition);
+        $proxy = $wrapper->wrap($entity);
+        $proxy->addItem("foz");
+
+        $this->assertInstanceOf(get_class($entity), $proxy);
+        $this->assertEquals($expectedResults, $proxy->getItems());
+        $this->assertEqualsPropertyValue($expectedResults, $proxy->getWrappedObject(), 'items');
+    }
+
+    /**
+     * @param mixed $expectedResult
+     * @param mixed $object
+     * @param string $propertyName
+     */
+    private function assertEqualsPropertyValue($expectedResult, $object, $propertyName)
+    {
+        $reflection = new \ReflectionClass(get_class($object));
+        $itemsProperty = $reflection->getProperty($propertyName);
+        $itemsProperty->setAccessible(true);
+        $this->assertEquals($expectedResult, $itemsProperty->getValue($object));
+    }
+
+    /**
+     * @param $entityProxyDefinition
+     * @return Wrapper
+     */
+    private function createWrapper(Definition $entityProxyDefinition)
+    {
+        $propertyValueSetter = new PropertyValueSetter(new AssemblerFactory());
+
+        return new Wrapper(new Factory($propertyValueSetter), [$entityProxyDefinition]);
     }
 }

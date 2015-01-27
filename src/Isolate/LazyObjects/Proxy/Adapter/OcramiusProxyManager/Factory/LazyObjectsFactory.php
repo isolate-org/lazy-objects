@@ -16,7 +16,7 @@ class LazyObjectsFactory extends AbstractBaseFactory
     private $generator;
 
     /**
-     * @return \Isolate\LazyObjects\Proxy\Proxy
+     * @return \Isolate\LazyObjects\WrappedObject
      */
     public function createProxy($instance, array $prefixInterceptors = array(), array $suffixInterceptors = array())
     {
