@@ -2,7 +2,8 @@
 
 namespace Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager;
 
-use Isolate\LazyObjects\Object\PropertyValueSetter;
+use Isolate\LazyObjects\Object\PropertyAccessor;
+use Isolate\LazyObjects\Object\Value\AssemblerFactory;
 use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\Factory\LazyObjectsFactory;
 use Isolate\LazyObjects\Proxy\Definition;
 use Isolate\LazyObjects\Proxy\Factory as BaseFactory;
@@ -15,17 +16,11 @@ class Factory implements BaseFactory
     private $lazyObjectsFactory;
 
     /**
-     * @var PropertyValueSetter
+     * @param LazyObjectsFactory $lazyObjectFactory
      */
-    private $propertyValueSetter;
-
-    /**
-     * @param PropertyValueSetter $propertyValueSetter
-     */
-    public function __construct(PropertyValueSetter $propertyValueSetter)
+    public function __construct(LazyObjectsFactory $lazyObjectFactory)
     {
-        $this->lazyObjectsFactory = new LazyObjectsFactory();
-        $this->propertyValueSetter = $propertyValueSetter;
+        $this->lazyObjectsFactory = $lazyObjectFactory;
     }
 
     /**
@@ -35,25 +30,9 @@ class Factory implements BaseFactory
      */
     public function createProxy($object, Definition $definition)
     {
-        $proxyMethods = [];
-        foreach ($definition->getMethods()->all() as $methodDefinition) {
-
-            $proxyMethods[(string) $methodDefinition->getName()] = function ($proxy, $instance, $method, $params, & $returnEarly) use ($methodDefinition) {
-                $replacementResult = $methodDefinition->getReplacement()->call($params, $instance);
-
-                if ($methodDefinition->hasDefinedTargetProperty()) {
-                    $this->propertyValueSetter->set($instance, $methodDefinition->getTargetPropertyName(), $replacementResult);
-                } else {
-                    $returnEarly = true;
-                }
-
-                return $replacementResult;
-            };
-        }
-
         return $this->lazyObjectsFactory->createProxy(
             $object,
-            $proxyMethods
+            $definition->getLazyProperties()
         );
     }
 }

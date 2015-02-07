@@ -2,17 +2,24 @@
 
 namespace spec\Isolate\LazyObjects\Proxy;
 
+use Isolate\LazyObjects\Exception\InvalidArgumentException;
 use Isolate\LazyObjects\Proxy\ClassName;
-use Isolate\LazyObjects\Proxy\Methods;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class DefinitionSpec extends ObjectBehavior
 {
-    function it_fits_only_for_instances_of_specific_classes()
+    function it_throws_exception_when_one_of_properties_array_value_is_not_lazy_property()
     {
-        $object = new \DateTime();
-        $this->beConstructedWith(new ClassName(get_class($object)), new Methods());
-        $this->describeProxyFor($object)->shouldReturn(true);
+        $this->shouldThrow(new InvalidArgumentException("Proxy definitions require all properties to be an instance of Isolate\\LazyObjects\\Proxy\\LazyProperty"))
+            ->during("__construct", [new ClassName("DateTime"), [new \DateTime()]]);
+    }
+
+    function it_describe_proxy_for_objects_that_are_instance_of_used_class()
+    {
+        $this->beConstructedWith(new ClassName('DateTime'));
+
+        $this->describeProxyFor(new \DateTime())->shouldReturn(true);
+        $this->describeProxyFor(new \ArrayObject())->shouldReturn(false);
     }
 }

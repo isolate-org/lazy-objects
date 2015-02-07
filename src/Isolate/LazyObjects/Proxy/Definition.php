@@ -2,6 +2,8 @@
 
 namespace Isolate\LazyObjects\Proxy;
 
+use Isolate\LazyObjects\Exception\InvalidArgumentException;
+
 class Definition
 {
     /**
@@ -10,18 +12,25 @@ class Definition
     private $className;
 
     /**
-     * @var Methods
+     * @var LazyProperty[]|array $lazyProperties
      */
-    private $methods;
+    private $lazyProperties;
 
     /**
      * @param ClassName $className
-     * @param Methods $methods
+     * @param LazyProperty[]|array $lazyProperties
+     * @throws InvalidArgumentException
      */
-    public function __construct(ClassName $className, Methods $methods)
+    public function __construct(ClassName $className, array $lazyProperties = [])
     {
+        foreach ($lazyProperties as $property) {
+            if (!$property instanceof LazyProperty) {
+                throw new InvalidArgumentException("Proxy definitions require all properties to be an instance of Isolate\\LazyObjects\\Proxy\\LazyProperty");
+            }
+        }
+
         $this->className = $className;
-        $this->methods = $methods;
+        $this->lazyProperties = $lazyProperties;
     }
 
     /**
@@ -34,10 +43,10 @@ class Definition
     }
 
     /**
-     * @return Methods
+     * @return array|LazyProperty[]
      */
-    public function getMethods()
+    public function getLazyProperties()
     {
-        return $this->methods;
+        return $this->lazyProperties;
     }
 }

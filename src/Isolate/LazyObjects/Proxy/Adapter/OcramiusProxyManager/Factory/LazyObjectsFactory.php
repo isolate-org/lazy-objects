@@ -2,7 +2,9 @@
 
 namespace Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\Factory;
 
+use Isolate\LazyObjects\Exception\InvalidArgumentException;
 use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\ProxyGenerator\LazyObjectsProxyGenerator;
+use Isolate\LazyObjects\Proxy\LazyProperty;
 use ProxyManager\Factory\AbstractBaseFactory;
 
 /**
@@ -16,13 +18,22 @@ class LazyObjectsFactory extends AbstractBaseFactory
     private $generator;
 
     /**
+     * @param $instance
+     * @param array $lazyProperties
      * @return \Isolate\LazyObjects\WrappedObject
+     * @throws InvalidArgumentException
      */
-    public function createProxy($instance, array $prefixInterceptors = array(), array $suffixInterceptors = array())
+    public function createProxy($instance, array $lazyProperties = array())
     {
+        foreach ($lazyProperties as $initializer) {
+            if (!$initializer instanceof LazyProperty) {
+                throw new InvalidArgumentException("Lazy property needs to be an instance of Isolate\\LazyObjects\\Proxy\\Property");
+            }
+        }
+
         $proxyClassName = $this->generateProxy(get_class($instance));
 
-        return new $proxyClassName($instance, $prefixInterceptors, $suffixInterceptors);
+        return new $proxyClassName($instance, $lazyProperties);
     }
 
     /**

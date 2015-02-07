@@ -1,6 +1,6 @@
 <?php
 
-namespace Isolate\LazyObjects\Proxy\Method;
+namespace Isolate\LazyObjects\Proxy\Property;
 
 use Isolate\LazyObjects\Exception\InvalidArgumentException;
 
@@ -18,11 +18,11 @@ class Name
     public function __construct($name)
     {
         if (!is_string($name)) {
-            throw new InvalidArgumentException("Method name must be a valid string.");
+            throw new InvalidArgumentException("Property name must be a valid string.");
         }
 
         if (empty($name)) {
-            throw new InvalidArgumentException("Method name can not be empty.");
+            throw new InvalidArgumentException("Property name can not be empty.");
         }
 
         $this->name = $name;

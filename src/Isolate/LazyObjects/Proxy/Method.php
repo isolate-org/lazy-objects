@@ -3,8 +3,6 @@
 namespace Isolate\LazyObjects\Proxy;
 
 use Isolate\LazyObjects\Exception\InvalidArgumentException;
-use Isolate\LazyObjects\Proxy\Method\Name;
-use Isolate\LazyObjects\Proxy\Method\Replacement;
 
 class Method
 {
@@ -14,66 +12,33 @@ class Method
     private $name;
 
     /**
-     * @var Replacement
-     */
-    private $replacement;
-
-    /**
-     * @var string
-     */
-    private $targetPropertyName;
-
-    /**
-     * @param Name $name
-     * @param Replacement $replacement
-     * @param $targetPropertyName
+     * @param string $name
      * @throws InvalidArgumentException
      */
-    public function __construct(Name $name, Replacement $replacement, $targetPropertyName = null)
+    public function __construct($name)
     {
+        if (!is_string($name)) {
+            throw new InvalidArgumentException("Method name must be a valid string.");
+        }
+
+        if (empty($name)) {
+            throw new InvalidArgumentException("Method name can not be empty.");
+        }
+
         $this->name = $name;
-        $this->replacement = $replacement;
-        $this->targetPropertyName = $targetPropertyName;
     }
 
-    /**
-     * @return Replacement
-     */
-    public function getReplacement()
-    {
-        return $this->replacement;
-    }
-
-    /**
-     * @return Name
-     */
-    public function getName()
+    public function __toString()
     {
         return $this->name;
     }
 
     /**
-     * @param $name
+     * @param $method
      * @return bool
      */
-    public function hasName($name)
+    public function isEqualTo($method)
     {
-        return (string) $this->name === $name;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasDefinedTargetProperty()
-    {
-        return !is_null($this->targetPropertyName);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTargetPropertyName()
-    {
-        return $this->targetPropertyName;
+        return strtolower($this->name) === strtolower($method);
     }
 }

@@ -13,7 +13,9 @@ class GetWrappedObject extends MethodGenerator
     public function __construct(PropertyGenerator $wrappedObjectProperty)
     {
         parent::__construct('getWrappedObject');
+        $wrappedObjectProperty  = $wrappedObjectProperty->getName();
         $this->setDocblock('{@inheritDoc}');
-        $this->setBody('return $this->' . $wrappedObjectProperty->getName() . ';');
+
+        $this->setBody("return \$this->" . $wrappedObjectProperty . ";");
     }
 }

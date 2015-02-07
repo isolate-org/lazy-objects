@@ -4,7 +4,7 @@ namespace Isolate\LazyObjects\Tests\Double;
 
 class EntityFake
 {
-    protected $items;
+    private $items;
 
     public function __construct($items = [])
     {
@@ -19,5 +19,12 @@ class EntityFake
     public function addItem($item)
     {
         $this->items[] = $item;
+    }
+
+    public function removeItem($item)
+    {
+        if ($this->items->contains($item)) {
+            $this->items->removeElement($item);
+        }
     }
 }

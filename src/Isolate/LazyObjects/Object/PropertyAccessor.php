@@ -7,21 +7,8 @@ use Isolate\LazyObjects\Exception\NotExistingPropertyException;
 use Isolate\LazyObjects\Object\Value\Assembler;
 use Isolate\LazyObjects\Object\Value\AssemblerFactory;
 
-class PropertyValueSetter
+class PropertyAccessor
 {
-    /**
-     * @var Assembler
-     */
-    private $assemblerFactory;
-
-    /**
-     * @param AssemblerFactory $assemblerFactory
-     */
-    public function __construct(AssemblerFactory $assemblerFactory)
-    {
-        $this->assemblerFactory = $assemblerFactory;
-    }
-
     /**
      * @param $object
      * @param $propertyName
@@ -36,10 +23,25 @@ class PropertyValueSetter
         $this->validateProperty($reflection, $object, $propertyName);
         $property = $reflection->getProperty($propertyName);
         $property->setAccessible(true);
+        $property->setValue($object, $value);
+    }
 
-        $oldValue = $property->getValue($object);
-        $assembler = $this->assemblerFactory->createFor($value, $oldValue);
-        $property->setValue($object, $assembler->assemble($value, $oldValue));
+    /**
+     * @param $object
+     * @param $propertyName
+     * @return mixed
+     * @throws InvalidArgumentException
+     * @throws NotExistingPropertyException
+     */
+    public function get($object, $propertyName)
+    {
+        $this->validateObject($object);
+        $reflection = new \ReflectionClass($object);
+        $this->validateProperty($reflection, $object, $propertyName);
+        $property = $reflection->getProperty($propertyName);
+        $property->setAccessible(true);
+
+        return $property->getValue($object);
     }
 
     /**

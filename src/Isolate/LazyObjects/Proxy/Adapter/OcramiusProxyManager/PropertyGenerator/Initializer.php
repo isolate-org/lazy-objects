@@ -5,16 +5,13 @@ namespace Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\PropertyGenerat
 use ProxyManager\Generator\Util\UniqueIdentifierGenerator;
 use Zend\Code\Generator\PropertyGenerator;
 
-class WrappedObjectProperty extends PropertyGenerator
+class Initializer extends PropertyGenerator
 {
-    /**
-     * Constructor
-     */
     public function __construct()
     {
-        parent::__construct(UniqueIdentifierGenerator::getIdentifier('wrappedObject'));
+        parent::__construct(UniqueIdentifierGenerator::getIdentifier('initializer'));
 
+        $this->setDefaultValue([]);
         $this->setVisibility(self::VISIBILITY_PRIVATE);
-        $this->setDocblock('@var \\Closure|null initializer responsible for generating the wrapped object');
     }
 }
