@@ -16,16 +16,6 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class WrapperTest extends \PHPUnit_Framework_TestCase
 {
-    private $proxiesTargetDir;
-
-    function setUp()
-    {
-        $this->proxiesTargetDir = TESTS_TEMP_DIR . '/proxy';
-        $fs = new Filesystem();
-        $fs->remove($this->proxiesTargetDir);
-        $fs->mkdir($this->proxiesTargetDir);
-    }
-
     function test_initializing_property_value_in_proxy_constructor()
     {
         $expectedResults = ["foo", "bar", "baz"];
@@ -99,11 +89,7 @@ class WrapperTest extends \PHPUnit_Framework_TestCase
      */
     private function createWrapper(Definition $entityProxyDefinition)
     {
-        $configuration = new Configuration();
-        $configuration->setProxiesTargetDir($this->proxiesTargetDir);
-        spl_autoload_register($configuration->getProxyAutoloader());
-
-        $lazyObjectFactory = new Factory\LazyObjectsFactory($configuration);
+        $lazyObjectFactory = new Factory\LazyObjectsFactory();
 
         return new Wrapper(new Factory($lazyObjectFactory), [$entityProxyDefinition]);
     }
