@@ -19,7 +19,7 @@ class ItemsValueInitilizer implements ValueInitializer
         $this->items = $items;
     }
 
-    public function initialize($defaultPropertyValue)
+    public function initialize($object, $defaultPropertyValue)
     {
         return $this->items;
     }

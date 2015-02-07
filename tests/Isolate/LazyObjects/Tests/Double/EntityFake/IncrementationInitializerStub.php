@@ -19,7 +19,7 @@ class IncrementationInitializerStub implements ValueInitializer
         $this->items = 0;
     }
 
-    public function initialize($defaultPropertyValue)
+    public function initialize($object, $defaultPropertyValue)
     {
         $this->items += 1;
         return $this->items;

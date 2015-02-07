@@ -87,7 +87,7 @@ final class Initializer
     private function initializeProperty(LazyProperty $property, $targetObject)
     {
         $defaultValue = $this->propertyAccessor->get($targetObject, (string)$property->getName());
-        $propertyValue = $property->getValueInitializer()->initialize($defaultValue);
+        $propertyValue = $property->getValueInitializer()->initialize($targetObject, $defaultValue);
         $this->propertyAccessor->set($targetObject, (string)$property->getName(), $propertyValue);
         $this->markAsInitialized($property);
     }
