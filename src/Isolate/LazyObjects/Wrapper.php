@@ -2,6 +2,7 @@
 
 namespace Isolate\LazyObjects;
 
+use Isolate\LazyObjects\Exception\InvalidArgumentException;
 use Isolate\LazyObjects\Proxy\Definition;
 use Isolate\LazyObjects\Proxy\Factory;
 use Isolate\LazyObjects\Exception\RuntimeException;
@@ -21,10 +22,24 @@ class Wrapper
     /**
      * @param Factory $factory
      * @param array $definitions
+     * @throws InvalidArgumentException
      */
-    public function __construct(Factory $factory, array $definitions = [])
+    public function __construct(Factory $factory, $definitions = [])
     {
-        $this->definitions = $definitions;
+        $this->definitions = [];
+
+        if (!is_array($definitions) && !$definitions instanceof \Traversable) {
+            throw new InvalidArgumentException("Lazy objects definitions collection must be traversable.");
+        }
+
+        foreach ($definitions as $definition) {
+            if (!$definition instanceof Definition) {
+                throw new InvalidArgumentException("Lazy object definition must be an instance of Isolate\\LazyObjects\\Proxy\\Definition");
+            }
+
+            $this->definitions[] = $definition;
+        }
+
         $this->factory = $factory;
     }
 
