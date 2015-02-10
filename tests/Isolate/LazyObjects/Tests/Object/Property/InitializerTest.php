@@ -88,4 +88,26 @@ class InitializerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(1, $entity->getItems());
     }
+
+    function test_executing_callback_after_property_initialization()
+    {
+        $callbackExecuted = false;
+        $entity = new EntityFake(0);
+
+        $lazyProperty = new LazyProperty(
+            new Name('items'),
+            new EntityFake\IncrementationInitializerStub()
+        );
+        $lazyProperty->setInitializationCallback(function() use (&$callbackExecuted) {
+            $callbackExecuted = true;
+        });
+
+        $this->initializer->initialize(
+            [$lazyProperty],
+            '__construct',
+            $entity
+        );
+
+        $this->assertTrue($callbackExecuted);
+    }
 }

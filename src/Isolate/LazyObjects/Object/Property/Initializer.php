@@ -90,5 +90,9 @@ final class Initializer
         $propertyValue = $property->getValueInitializer()->initialize($targetObject, $defaultValue);
         $this->propertyAccessor->set($targetObject, (string)$property->getName(), $propertyValue);
         $this->markAsInitialized($property);
+
+        if ($property->hasInitializationCallback()) {
+            $property->getInitializationCallback()->__invoke($defaultValue, $propertyValue, $targetObject);
+        }
     }
 }

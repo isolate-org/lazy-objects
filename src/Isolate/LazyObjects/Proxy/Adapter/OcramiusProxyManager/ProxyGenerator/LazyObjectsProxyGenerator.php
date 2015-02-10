@@ -3,6 +3,7 @@
 namespace Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\ProxyGenerator;
 
 use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\MethodGenerator\Constructor;
+use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\MethodGenerator\GetLazyProperties;
 use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\MethodGenerator\GetWrappedObject;
 use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\MethodGenerator\MethodProxy;
 use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\PropertyGenerator\LazyProperties;
@@ -56,6 +57,7 @@ class LazyObjectsProxyGenerator implements ProxyGeneratorInterface
                 [
                     new Constructor($originalClass, $wrappedObjectProperty, $lazyPropertiesProperty, $initializerProperty),
                     new GetWrappedObject($wrappedObjectProperty),
+                    new GetLazyProperties($lazyPropertiesProperty),
                 ]
             )
         );

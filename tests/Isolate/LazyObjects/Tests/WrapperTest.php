@@ -11,8 +11,6 @@ use Isolate\LazyObjects\Proxy\LazyProperty;
 use Isolate\LazyObjects\Proxy\Property\Name;
 use Isolate\LazyObjects\Tests\Double\EntityFake;
 use Isolate\LazyObjects\Wrapper;
-use ProxyManager\Configuration;
-use Symfony\Component\Filesystem\Filesystem;
 
 class WrapperTest extends \PHPUnit_Framework_TestCase
 {
@@ -81,6 +79,22 @@ class WrapperTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(get_class($entity), $proxy);
         $this->assertEquals($expectedResults, $proxy->getItems());
         $this->assertEquals($expectedResults, $proxy->getWrappedObject()->getItems());
+    }
+
+    function test_getting_lazy_properties_from_proxy()
+    {
+        $entity = new EntityFake();
+        $lazyProperty = new LazyProperty(
+            new Name("items"),
+            $this->getMock('Isolate\\LazyObjects\\Proxy\\Property\\ValueInitializer')
+        );
+
+        $entityProxyDefinition = new Definition(new ClassName(get_class($entity)), [$lazyProperty]);
+
+        $wrapper = $this->createWrapper($entityProxyDefinition);
+        $proxy = $wrapper->wrap($entity);
+
+        $this->assertEquals([$lazyProperty], $proxy->getLazyProperties());
     }
 
     /**

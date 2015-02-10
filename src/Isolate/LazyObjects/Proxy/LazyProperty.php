@@ -24,6 +24,11 @@ class LazyProperty
     private $triggers;
 
     /**
+     * @var \Closure
+     */
+    private $initializationCallback;
+
+    /**
      * @param Name $name
      * @param ValueInitializer $valueInitializer
      * @param array|Method[] $triggers
@@ -79,5 +84,29 @@ class LazyProperty
         }
 
         return false;
+    }
+
+    /**
+     * @param \Closure $initializationCallback
+     */
+    public function setInitializationCallback(\Closure $initializationCallback)
+    {
+        $this->initializationCallback = $initializationCallback;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasInitializationCallback()
+    {
+        return !is_null($this->initializationCallback);
+    }
+
+    /**
+     * @return \Closure
+     */
+    public function getInitializationCallback()
+    {
+        return $this->initializationCallback;
     }
 }
