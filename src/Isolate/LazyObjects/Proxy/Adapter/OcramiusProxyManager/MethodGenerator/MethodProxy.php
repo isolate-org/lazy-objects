@@ -29,7 +29,7 @@ class MethodProxy extends MethodGenerator
         foreach ($originalMethod->getParameters() as $parameter) {
             $paramName = '$' . $parameter->getName();
             $forwardedParams[] = $paramName;
-            $params[] = var_export($paramName, true) . ' => ' . $paramName;
+            $params[] = var_export($parameter->getName(), true) . ' => ' . $paramName;
         }
 
         $paramsString = 'array(' . implode(', ', $params) . ')';
