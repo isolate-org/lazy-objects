@@ -4,7 +4,7 @@ namespace Isolate\LazyObjects\Proxy;
 
 use Isolate\LazyObjects\Proxy\Method\Replacement;
 
-final class MethodReplacement
+class MethodReplacement
 {
     /**
      * @var Method
