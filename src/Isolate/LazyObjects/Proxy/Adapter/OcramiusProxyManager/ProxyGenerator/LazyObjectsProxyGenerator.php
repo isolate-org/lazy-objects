@@ -4,10 +4,14 @@ namespace Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\ProxyGenerator;
 
 use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\MethodGenerator\Constructor;
 use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\MethodGenerator\GetLazyProperties;
+use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\MethodGenerator\GetMethodReplacement;
+use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\MethodGenerator\GetMethodReplacements;
 use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\MethodGenerator\GetWrappedObject;
+use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\MethodGenerator\HasMethodReplacement;
 use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\MethodGenerator\MethodProxy;
 use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\PropertyGenerator\LazyProperties;
 use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\PropertyGenerator\Initializer;
+use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\PropertyGenerator\MethodReplacements;
 use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\PropertyGenerator\WrappedObject;
 use ProxyManager\Generator\Util\ClassGeneratorUtils;
 use ProxyManager\ProxyGenerator\Assertion\CanProxyAssertion;
@@ -36,6 +40,7 @@ class LazyObjectsProxyGenerator implements ProxyGeneratorInterface
         $classGenerator->setImplementedInterfaces($interfaces);
         $classGenerator->addPropertyFromGenerator($wrappedObjectProperty = new WrappedObject());
         $classGenerator->addPropertyFromGenerator($lazyPropertiesProperty = new LazyProperties());
+        $classGenerator->addPropertyFromGenerator($methodReplacementsProperty = new MethodReplacements());
         $classGenerator->addPropertyFromGenerator($initializerProperty = new Initializer());
 
         array_map(
@@ -55,9 +60,18 @@ class LazyObjectsProxyGenerator implements ProxyGeneratorInterface
                     ProxiedMethodsFilter::getProxiedMethods($originalClass)
                 ),
                 [
-                    new Constructor($originalClass, $wrappedObjectProperty, $lazyPropertiesProperty, $initializerProperty),
+                    new Constructor(
+                        $originalClass,
+                        $wrappedObjectProperty,
+                        $lazyPropertiesProperty,
+                        $methodReplacementsProperty,
+                        $initializerProperty
+                    ),
                     new GetWrappedObject($wrappedObjectProperty),
                     new GetLazyProperties($lazyPropertiesProperty),
+                    new GetMethodReplacements($methodReplacementsProperty),
+                    new HasMethodReplacement($methodReplacementsProperty),
+                    new GetMethodReplacement($methodReplacementsProperty)
                 ]
             )
         );

@@ -17,20 +17,24 @@ class Definition
     private $lazyProperties;
 
     /**
+     * @var array
+     */
+    private $methodReplacements;
+
+    /**
      * @param ClassName $className
-     * @param LazyProperty[]|array $lazyProperties
+     * @param array|LazyProperty[] $lazyProperties
+     * @param array|MethodReplacement[] $methodReplacements
      * @throws InvalidArgumentException
      */
-    public function __construct(ClassName $className, array $lazyProperties = [])
+    public function __construct(ClassName $className, array $lazyProperties = [], array $methodReplacements = [])
     {
-        foreach ($lazyProperties as $property) {
-            if (!$property instanceof LazyProperty) {
-                throw new InvalidArgumentException("Proxy definitions require all properties to be an instance of Isolate\\LazyObjects\\Proxy\\LazyProperty");
-            }
-        }
+        $this->validateLazyPropertiesDefinitions($lazyProperties);
+        $this->validateMethodReplacementsDefinitions($methodReplacements);
 
         $this->className = $className;
         $this->lazyProperties = $lazyProperties;
+        $this->methodReplacements = $methodReplacements;
     }
 
     /**
@@ -48,5 +52,39 @@ class Definition
     public function getLazyProperties()
     {
         return $this->lazyProperties;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMethodReplacements()
+    {
+        return $this->methodReplacements;
+    }
+
+    /**
+     * @param array $lazyProperties
+     * @throws InvalidArgumentException
+     */
+    private function validateLazyPropertiesDefinitions(array $lazyProperties)
+    {
+        foreach ($lazyProperties as $property) {
+            if (!$property instanceof LazyProperty) {
+                throw new InvalidArgumentException("Proxy definitions require all properties to be an instance of Isolate\\LazyObjects\\Proxy\\LazyProperty");
+            }
+        }
+    }
+
+    /**
+     * @param array $methodReplacements
+     * @throws InvalidArgumentException
+     */
+    private function validateMethodReplacementsDefinitions(array $methodReplacements)
+    {
+        foreach ($methodReplacements as $methodReplacement) {
+            if (!$methodReplacement instanceof MethodReplacement) {
+                throw new InvalidArgumentException("Proxy definitions require all method replacements to be an instance of Isolate\\LazyObjects\\Proxy\\MethodReplacement");
+            }
+        }
     }
 }

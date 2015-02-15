@@ -1,0 +1,17 @@
+<?php
+
+namespace Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\PropertyGenerator;
+
+use ProxyManager\Generator\Util\UniqueIdentifierGenerator;
+use Zend\Code\Generator\PropertyGenerator;
+
+class MethodReplacements extends PropertyGenerator
+{
+    public function __construct()
+    {
+        parent::__construct(UniqueIdentifierGenerator::getIdentifier('methodReplacements'));
+
+        $this->setDefaultValue(array());
+        $this->setVisibility(self::VISIBILITY_PRIVATE);
+    }
+}

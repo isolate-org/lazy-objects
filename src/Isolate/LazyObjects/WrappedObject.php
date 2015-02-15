@@ -3,6 +3,7 @@
 namespace Isolate\LazyObjects;
 
 use Isolate\LazyObjects\Proxy\LazyProperty;
+use Isolate\LazyObjects\Proxy\MethodReplacement;
 
 interface WrappedObject
 {
@@ -15,4 +16,9 @@ interface WrappedObject
      * @return array|LazyProperty[]
      */
     public function getLazyProperties();
+
+    /**
+     * @return array|MethodReplacement[]
+     */
+    public function getMethodReplacements();
 }

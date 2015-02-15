@@ -6,7 +6,7 @@ use Isolate\LazyObjects\Exception\InvalidArgumentException;
 use Isolate\LazyObjects\Proxy\Property\Name;
 use Isolate\LazyObjects\Proxy\Property\ValueInitializer;
 
-class LazyProperty
+final class LazyProperty
 {
     /**
      * @var string

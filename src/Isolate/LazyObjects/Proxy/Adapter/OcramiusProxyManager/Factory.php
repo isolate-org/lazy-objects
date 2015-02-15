@@ -32,7 +32,8 @@ class Factory implements BaseFactory
     {
         return $this->lazyObjectsFactory->createProxy(
             $object,
-            $definition->getLazyProperties()
+            $definition->getLazyProperties(),
+            $definition->getMethodReplacements()
         );
     }
 }

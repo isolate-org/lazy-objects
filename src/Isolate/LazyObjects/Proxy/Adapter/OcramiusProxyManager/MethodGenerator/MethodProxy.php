@@ -23,13 +23,21 @@ class MethodProxy extends MethodGenerator
     ) {
         /* @var $method self */
         $method          = static::fromReflection($originalMethod);
-        $forwardedParams = array();
+        $forwardedParams = [];
+        $params          = [];
 
         foreach ($originalMethod->getParameters() as $parameter) {
-            $forwardedParams[]   = '$' . $parameter->getName();
+            $paramName = '$' . $parameter->getName();
+            $forwardedParams[] = $paramName;
+            $params[] = var_export($paramName, true) . ' => ' . $paramName;
         }
 
+        $paramsString = 'array(' . implode(', ', $params) . ')';
+
         $methodBody = '$this->' . $initializerProperty->getName() . "->initialize(\$this->" . $lazyPropertiesProperty->getName() . ", \"" . $method->getName() . "\", \$this->" . $wrappedObjectProperty->getName() . ");\n\n"
+            . 'if ($this->hasMethodReplacement("' . $method->getName() . '")) {' . "\n"
+            . '    return $this->getMethodReplacement("' . $method->getName() .'")->getReplacement()->execute($this->' . $wrappedObjectProperty->getName() . ', "' . $method->getName() . '", ' . $paramsString . ');' . "\n"
+            . '}' . "\n\n"
             . 'return $this->' . $wrappedObjectProperty->getName() . '->' . $method->getName() .  '(' . implode(', ', $forwardedParams) . ');';
 
 

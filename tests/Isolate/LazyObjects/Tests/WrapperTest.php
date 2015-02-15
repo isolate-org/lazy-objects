@@ -8,6 +8,7 @@ use Isolate\LazyObjects\Proxy\ClassName;
 use Isolate\LazyObjects\Proxy\Definition;
 use Isolate\LazyObjects\Proxy\Method;
 use Isolate\LazyObjects\Proxy\LazyProperty;
+use Isolate\LazyObjects\Proxy\MethodReplacement;
 use Isolate\LazyObjects\Proxy\Property\Name;
 use Isolate\LazyObjects\Tests\Double\EntityFake;
 use Isolate\LazyObjects\Wrapper;
@@ -20,7 +21,8 @@ class WrapperTest extends \PHPUnit_Framework_TestCase
         $entity = new EntityFake();
 
         $entityProxyDefinition = new Definition(
-            new ClassName(get_class($entity)), [
+            new ClassName(get_class($entity)),
+            [
                 new LazyProperty(new Name("items"), new EntityFake\ItemsValueInitilizer($expectedResults))
             ]
         );
@@ -96,6 +98,50 @@ class WrapperTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals([$lazyProperty], $proxy->getLazyProperties());
     }
+
+    function test_replacing_method()
+    {
+        $expectedResult = ['foo', 'bar', 'baz'];
+        $entity = new EntityFake();
+
+        $entityProxyDefinition = new Definition(
+            new ClassName(get_class($entity)),
+            [
+                new LazyProperty(
+                    new Name("items"),
+                    new EntityFake\ItemsValueInitilizer($expectedResult),
+                    [new Method("getItems")]
+                )
+            ],
+            [new MethodReplacement(new Method("getItems"), new EntityFake\GetItemsReplacement($expectedResult))]
+        );
+
+        $wrapper = $this->createWrapper($entityProxyDefinition);
+        $proxy = $wrapper->wrap($entity);
+
+        $this->assertSame([], $entity->getItems());
+        $this->assertSame($expectedResult, $proxy->getItems());
+        $this->assertSame($expectedResult, $proxy->getWrappedObject()->getItems());
+    }
+
+    function test_lazy_property_initialization_with_method_replacement()
+    {
+        $replacementResult = ['foo', 'bar', 'baz'];
+        $entity = new EntityFake();
+
+        $entityProxyDefinition = new Definition(
+            new ClassName(get_class($entity)),
+            [],
+            [new MethodReplacement(new Method("getItems"), new EntityFake\GetItemsReplacement($replacementResult))]
+        );
+
+        $wrapper = $this->createWrapper($entityProxyDefinition);
+        $proxy = $wrapper->wrap($entity);
+
+        $this->assertSame([], $entity->getItems());
+        $this->assertSame($replacementResult, $proxy->getItems());
+    }
+
 
     /**
      * @param $entityProxyDefinition
