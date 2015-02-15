@@ -45,6 +45,17 @@ class LazyObjectsFactory extends AbstractBaseFactory
     }
 
     /**
+     * Return proxy class name
+     *
+     * @param string $className
+     * @return string
+     */
+    public function createProxyClass($className)
+    {
+        return $this->generateProxy($className);
+    }
+
+    /**
      * {@inheritDoc}
      */
     protected function getGenerator()
