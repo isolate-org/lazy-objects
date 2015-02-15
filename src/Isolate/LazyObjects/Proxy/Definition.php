@@ -38,6 +38,14 @@ class Definition
     }
 
     /**
+     * @return ClassName
+     */
+    public function getClassName()
+    {
+        return $this->className;
+    }
+
+    /**
      * @param $object
      * @return bool
      */
