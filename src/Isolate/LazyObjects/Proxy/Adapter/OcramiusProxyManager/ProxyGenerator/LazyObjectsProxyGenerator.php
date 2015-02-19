@@ -32,9 +32,9 @@ class LazyObjectsProxyGenerator implements ProxyGeneratorInterface
         $interfaces = ['Isolate\\LazyObjects\\WrappedObject'];
 
         if ($originalClass->isInterface()) {
-            $interfaces[] = $originalClass->getName();
+            $interfaces[] = $originalClass->name;
         } else {
-            $classGenerator->setExtendedClass($originalClass->getName());
+            $classGenerator->setExtendedClass($originalClass->name);
         }
 
         $classGenerator->setImplementedInterfaces($interfaces);
@@ -51,7 +51,7 @@ class LazyObjectsProxyGenerator implements ProxyGeneratorInterface
                 array_map(
                     function (ReflectionMethod $method) use ($wrappedObjectProperty, $lazyPropertiesProperty, $initializerProperty) {
                         return MethodProxy::generateMethod(
-                            new MethodReflection($method->getDeclaringClass()->getName(), $method->getName()),
+                            new MethodReflection($method->getDeclaringClass()->name, $method->name),
                             $wrappedObjectProperty,
                             $lazyPropertiesProperty,
                             $initializerProperty

@@ -21,15 +21,14 @@ class MethodProxy extends MethodGenerator
         PropertyGenerator $lazyPropertiesProperty,
         PropertyGenerator $initializerProperty
     ) {
-        /* @var $method self */
         $method          = static::fromReflection($originalMethod);
         $forwardedParams = [];
         $params          = [];
 
         foreach ($originalMethod->getParameters() as $parameter) {
-            $paramName = '$' . $parameter->getName();
+            $paramName = '$' . $parameter->name;
             $forwardedParams[] = $paramName;
-            $params[] = var_export($parameter->getName(), true) . ' => ' . $paramName;
+            $params[] = var_export($parameter->name, true) . ' => ' . $paramName;
         }
 
         $paramsString = 'array(' . implode(', ', $params) . ')';

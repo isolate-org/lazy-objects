@@ -5,9 +5,9 @@ namespace Isolate\LazyObjects\Proxy;
 interface Factory
 {
     /**
-     * @param $object
+     * @param mixed $object
      * @param Definition $definition
-     * @return $object
+     * @return mixed $object
      */
     public function createProxy($object, Definition $definition);
 }

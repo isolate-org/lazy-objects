@@ -9,7 +9,7 @@ use Isolate\LazyObjects\Proxy\Property\ValueInitializer;
 class LazyProperty
 {
     /**
-     * @var string
+     * @var Name
      */
     private $name;
 
