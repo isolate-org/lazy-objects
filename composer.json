@@ -1,6 +1,7 @@
 {
     "name": "isolate/lazy-objects",
-    "description": "Lazy objects builder",
+    "description": "Isolate proxy classes generator",
+    "keywords": ["isolate", "lazy object", "object", "lazy", "proxy"],
     "require": {
         "ocramius/proxy-manager": "~1.0"
     },
