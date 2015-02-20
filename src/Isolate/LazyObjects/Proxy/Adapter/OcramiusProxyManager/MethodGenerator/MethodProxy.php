@@ -35,7 +35,7 @@ class MethodProxy extends MethodGenerator
 
         $methodBody = '$this->' . $initializerProperty->getName() . "->initialize(\$this->" . $lazyPropertiesProperty->getName() . ", \"" . $method->getName() . "\", \$this->" . $wrappedObjectProperty->getName() . ");\n\n"
             . 'if ($this->hasMethodReplacement("' . $method->getName() . '")) {' . "\n"
-            . '    return $this->getMethodReplacement("' . $method->getName() .'")->getReplacement()->execute($this->' . $wrappedObjectProperty->getName() . ', "' . $method->getName() . '", ' . $paramsString . ');' . "\n"
+            . '    return $this->getMethodReplacement("' . $method->getName() .'")->getReplacement()->execute($this, $this->' . $wrappedObjectProperty->getName() . ', "' . $method->getName() . '", ' . $paramsString . ');' . "\n"
             . '}' . "\n\n"
             . 'return $this->' . $wrappedObjectProperty->getName() . '->' . $method->getName() .  '(' . implode(', ', $forwardedParams) . ');';
 
