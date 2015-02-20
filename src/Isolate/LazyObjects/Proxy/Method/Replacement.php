@@ -11,10 +11,9 @@ interface Replacement
      * for a result of $methodName executed on $object.
      *
      * @param WrappedObject $proxy
-     * @param mixed $object
      * @param string $methodName
      * @param array $params
      * @return mixed
      */
-    public function execute(WrappedObject $proxy, $object, $methodName, array $params = []);
+    public function execute(WrappedObject $proxy, $methodName, array $params = []);
 }
