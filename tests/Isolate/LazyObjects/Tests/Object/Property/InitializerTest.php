@@ -91,16 +91,14 @@ class InitializerTest extends \PHPUnit_Framework_TestCase
 
     function test_executing_callback_after_property_initialization()
     {
-        $callbackExecuted = false;
         $entity = new EntityFake(0);
 
         $lazyProperty = new LazyProperty(
             new Name('items'),
             new EntityFake\IncrementationInitializerStub()
         );
-        $lazyProperty->setInitializationCallback(function() use (&$callbackExecuted) {
-            $callbackExecuted = true;
-        });
+        $initializationCallback = new EntityFake\InitializationCallbackMock();
+        $lazyProperty->setInitializationCallback($initializationCallback);
 
         $this->initializer->initialize(
             [$lazyProperty],
@@ -108,6 +106,6 @@ class InitializerTest extends \PHPUnit_Framework_TestCase
             $entity
         );
 
-        $this->assertTrue($callbackExecuted);
+        $this->assertTrue($initializationCallback->wasExecuted());
     }
 }

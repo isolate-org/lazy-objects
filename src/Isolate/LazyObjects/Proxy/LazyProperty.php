@@ -3,6 +3,7 @@
 namespace Isolate\LazyObjects\Proxy;
 
 use Isolate\LazyObjects\Exception\InvalidArgumentException;
+use Isolate\LazyObjects\Proxy\LazyProperty\InitializationCallback;
 use Isolate\LazyObjects\Proxy\Property\Name;
 use Isolate\LazyObjects\Proxy\Property\ValueInitializer;
 
@@ -87,9 +88,9 @@ class LazyProperty
     }
 
     /**
-     * @param \Closure $initializationCallback
+     * @param InitializationCallback $initializationCallback
      */
-    public function setInitializationCallback(\Closure $initializationCallback)
+    public function setInitializationCallback(InitializationCallback $initializationCallback)
     {
         $this->initializationCallback = $initializationCallback;
     }
@@ -103,7 +104,7 @@ class LazyProperty
     }
 
     /**
-     * @return \Closure
+     * @return InitializationCallback
      */
     public function getInitializationCallback()
     {

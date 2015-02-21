@@ -87,12 +87,12 @@ final class Initializer
     private function initializeProperty(LazyProperty $property, $targetObject)
     {
         $defaultValue = $this->propertyAccessor->get($targetObject, (string)$property->getName());
-        $propertyValue = $property->getValueInitializer()->initialize($targetObject, $defaultValue);
-        $this->propertyAccessor->set($targetObject, (string)$property->getName(), $propertyValue);
+        $newValue = $property->getValueInitializer()->initialize($targetObject, $defaultValue);
+        $this->propertyAccessor->set($targetObject, (string)$property->getName(), $newValue);
         $this->markAsInitialized($property);
 
         if ($property->hasInitializationCallback()) {
-            $property->getInitializationCallback()->__invoke($defaultValue, $propertyValue, $targetObject);
+            $property->getInitializationCallback()->execute($defaultValue, $newValue, $targetObject);
         }
     }
 }
