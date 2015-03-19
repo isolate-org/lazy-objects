@@ -19,7 +19,7 @@ class Sleep extends MethodGenerator
         parent::__construct('__sleep');
         $wrappedObject = $wrappedObjectProperty->getName();
         $initializer = $initializerProperty->getName();
-        $lazyProperties = $initializerProperty->getName();
+        $lazyProperties = $lazyPropertiesProperty->getName();
         $methodReplacements  = $methodReplacementsProperty->getName();
 
         $this->setBody(sprintf(
