@@ -142,6 +142,27 @@ class WrapperTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($replacementResult, $proxy->getItems());
     }
 
+    function test_lazy_objects_serialization()
+    {
+        $replacementResult = ['foo', 'bar', 'baz'];
+        $entity = new EntityFake();
+
+        $entityProxyDefinition = new Definition(
+            new ClassName(get_class($entity)),
+            [],
+            [new MethodReplacement(new Method("getItems"), new EntityFake\GetItemsReplacement($replacementResult))]
+        );
+
+        $wrapper = $this->createWrapper($entityProxyDefinition);
+        $proxy = $wrapper->wrap($entity);
+
+        $serialized = serialize($proxy);
+        $unserialized = unserialize($serialized);
+
+        $this->assertSame($replacementResult, $unserialized->getItems());
+    }
+
+
     /**
      * @param $entityProxyDefinition
      * @return Wrapper

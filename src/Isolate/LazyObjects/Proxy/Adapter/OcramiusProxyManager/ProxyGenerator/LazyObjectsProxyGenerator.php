@@ -9,6 +9,7 @@ use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\MethodGenerator\GetMe
 use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\MethodGenerator\GetWrappedObject;
 use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\MethodGenerator\HasMethodReplacement;
 use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\MethodGenerator\MethodProxy;
+use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\MethodGenerator\Sleep;
 use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\PropertyGenerator\LazyProperties;
 use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\PropertyGenerator\Initializer;
 use Isolate\LazyObjects\Proxy\Adapter\OcramiusProxyManager\PropertyGenerator\MethodReplacements;
@@ -66,6 +67,12 @@ class LazyObjectsProxyGenerator implements ProxyGeneratorInterface
                         $lazyPropertiesProperty,
                         $methodReplacementsProperty,
                         $initializerProperty
+                    ),
+                    new Sleep(
+                        $wrappedObjectProperty,
+                        $initializerProperty,
+                        $lazyPropertiesProperty,
+                        $methodReplacementsProperty
                     ),
                     new GetWrappedObject($wrappedObjectProperty),
                     new GetLazyProperties($lazyPropertiesProperty),

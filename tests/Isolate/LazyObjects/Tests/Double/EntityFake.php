@@ -27,4 +27,9 @@ class EntityFake
             $this->items->removeElement($item);
         }
     }
+
+    public function __sleep()
+    {
+        return ['items'];
+    }
 }
