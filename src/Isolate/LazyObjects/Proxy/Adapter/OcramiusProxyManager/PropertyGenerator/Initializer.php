@@ -11,7 +11,6 @@ class Initializer extends PropertyGenerator
     {
         parent::__construct(UniqueIdentifierGenerator::getIdentifier('initializer'));
 
-        $this->setDefaultValue([]);
         $this->setVisibility(self::VISIBILITY_PRIVATE);
     }
 }
