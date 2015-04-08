@@ -162,6 +162,17 @@ class WrapperTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($replacementResult, $unserialized->getItems());
     }
 
+    function test_not_unwrapping_object_when_method_returns_this()
+    {
+        $entity = new EntityFake();
+
+        $entityProxyDefinition = new Definition(new ClassName(get_class($entity)), [], []);
+
+        $wrapper = $this->createWrapper($entityProxyDefinition);
+        $proxy = $wrapper->wrap($entity);
+
+        $this->assertSame($proxy, $proxy->getThis());
+    }
 
     /**
      * @param $entityProxyDefinition

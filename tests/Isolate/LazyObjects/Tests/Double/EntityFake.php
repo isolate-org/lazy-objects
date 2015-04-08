@@ -28,6 +28,11 @@ class EntityFake
         }
     }
 
+    public function getThis()
+    {
+        return $this;
+    }
+
     public function __sleep()
     {
         return ['items'];

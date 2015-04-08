@@ -37,7 +37,11 @@ class MethodProxy extends MethodGenerator
             . 'if ($this->hasMethodReplacement("' . $method->getName() . '")) {' . "\n"
             . '    return $this->getMethodReplacement("' . $method->getName() .'")->getReplacement()->execute($this, "' . $method->getName() . '", ' . $paramsString . ');' . "\n"
             . '}' . "\n\n"
-            . 'return $this->' . $wrappedObjectProperty->getName() . '->' . $method->getName() .  '(' . implode(', ', $forwardedParams) . ');';
+            . '$result = $this->' . $wrappedObjectProperty->getName() . '->' . $method->getName() .  '(' . implode(', ', $forwardedParams) . ');' . "\n"
+            . 'if ($result === $this->' . $wrappedObjectProperty->getName() . ') {' ."\n"
+            . '    return $this;' . "\n"
+            . "}\n\n"
+            . 'return $result;';
 
 
         $method->setDocblock('{@inheritDoc}');
