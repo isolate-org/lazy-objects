@@ -7,6 +7,9 @@ use Isolate\LazyObjects\Exception\NotExistingPropertyException;
 use Isolate\LazyObjects\Object\Value\Assembler;
 use Isolate\LazyObjects\Object\Value\AssemblerFactory;
 
+/**
+ * @api
+ */
 class PropertyAccessor
 {
     /**
@@ -15,6 +18,8 @@ class PropertyAccessor
      * @param $value
      * @throws InvalidArgumentException
      * @throws NotExistingPropertyException
+     * 
+     * @api
      */
     public function set($object, $propertyName, $value)
     {
@@ -32,6 +37,8 @@ class PropertyAccessor
      * @return mixed
      * @throws InvalidArgumentException
      * @throws NotExistingPropertyException
+     * 
+     * @api
      */
     public function get($object, $propertyName)
     {

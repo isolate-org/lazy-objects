@@ -6,6 +6,9 @@ use Isolate\LazyObjects\Exception\InvalidArgumentException;
 use Isolate\LazyObjects\Object\PropertyAccessor;
 use Isolate\LazyObjects\Proxy\LazyProperty;
 
+/**
+ * @api
+ */
 final class Initializer
 {
     /**
@@ -29,6 +32,8 @@ final class Initializer
      * @param string $triggerMethod
      * @param $targetObject
      * @throws InvalidArgumentException
+     * 
+     * @api
      */
     public function initialize($lazyProperties = [], $triggerMethod, $targetObject)
     {

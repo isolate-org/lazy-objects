@@ -7,6 +7,9 @@ use Isolate\LazyObjects\Proxy\LazyProperty\InitializationCallback;
 use Isolate\LazyObjects\Proxy\Property\Name;
 use Isolate\LazyObjects\Proxy\Property\ValueInitializer;
 
+/**
+ * @api
+ */
 class LazyProperty
 {
     /**
@@ -50,6 +53,8 @@ class LazyProperty
 
     /**
      * @return ValueInitializer
+     * 
+     * @api
      */
     public function getValueInitializer()
     {
@@ -58,6 +63,8 @@ class LazyProperty
 
     /**
      * @return string
+     * 
+     * @api
      */
     public function getName()
     {
@@ -66,6 +73,8 @@ class LazyProperty
 
     /**
      * @return bool
+     * 
+     * @api
      */
     public function hasTriggers()
     {
@@ -75,6 +84,8 @@ class LazyProperty
     /**
      * @param $methodName
      * @return bool
+     * 
+     * @api
      */
     public function isTriggeredBy($methodName)
     {
@@ -89,6 +100,8 @@ class LazyProperty
 
     /**
      * @param InitializationCallback $initializationCallback
+     * 
+     * @api
      */
     public function setInitializationCallback(InitializationCallback $initializationCallback)
     {
@@ -97,6 +110,8 @@ class LazyProperty
 
     /**
      * @return bool
+     * 
+     * @api
      */
     public function hasInitializationCallback()
     {
@@ -105,6 +120,8 @@ class LazyProperty
 
     /**
      * @return InitializationCallback
+     * 
+     * @api
      */
     public function getInitializationCallback()
     {

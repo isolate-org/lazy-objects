@@ -7,6 +7,9 @@ use Isolate\LazyObjects\Proxy\Definition;
 use Isolate\LazyObjects\Proxy\Factory;
 use Isolate\LazyObjects\Exception\RuntimeException;
 
+/**
+ * @api
+ */
 class Wrapper
 {
     /**
@@ -46,6 +49,8 @@ class Wrapper
     /**
      * @param $object
      * @return bool
+     * 
+     * @api
      */
     public function canWrap($object)
     {
@@ -62,6 +67,8 @@ class Wrapper
      * @param $object
      * @return WrappedObject
      * @throws RuntimeException
+     * 
+     * @api
      */
     public function wrap($object)
     {

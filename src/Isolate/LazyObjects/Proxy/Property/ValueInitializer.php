@@ -2,6 +2,9 @@
 
 namespace Isolate\LazyObjects\Proxy\Property;
 
+/**
+ * @api
+ */
 interface ValueInitializer
 {
     /**
@@ -12,6 +15,8 @@ interface ValueInitializer
      * @param mixed $object that property holds the property.
      * @param mixed $defaultPropertyValue default of property that was set before initialization
      * @return mixed
+     * 
+     * @api
      */
     public function initialize($object, $defaultPropertyValue);
 }

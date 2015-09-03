@@ -4,6 +4,9 @@ namespace Isolate\LazyObjects\Proxy\Property;
 
 use Isolate\LazyObjects\Exception\InvalidArgumentException;
 
+/**
+ * @api
+ */
 class Name
 {
     /**

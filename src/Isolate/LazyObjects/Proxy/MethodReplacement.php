@@ -4,6 +4,9 @@ namespace Isolate\LazyObjects\Proxy;
 
 use Isolate\LazyObjects\Proxy\Method\Replacement;
 
+/**
+ * @api
+ */
 class MethodReplacement
 {
     /**
@@ -27,6 +30,8 @@ class MethodReplacement
 
     /**
      * @return Replacement
+     * 
+     * @api
      */
     public function getReplacement()
     {
@@ -35,6 +40,8 @@ class MethodReplacement
 
     /**
      * @return Method
+     * 
+     * @api
      */
     public function getMethod()
     {

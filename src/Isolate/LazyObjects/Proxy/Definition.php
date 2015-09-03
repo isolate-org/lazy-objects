@@ -4,6 +4,9 @@ namespace Isolate\LazyObjects\Proxy;
 
 use Isolate\LazyObjects\Exception\InvalidArgumentException;
 
+/**
+ * @api
+ */
 class Definition
 {
     /**
@@ -39,6 +42,8 @@ class Definition
 
     /**
      * @return ClassName
+     * 
+     * @api
      */
     public function getClassName()
     {
@@ -48,6 +53,8 @@ class Definition
     /**
      * @param $object
      * @return bool
+     * 
+     * @api
      */
     public function describeProxyFor($object)
     {
@@ -56,6 +63,8 @@ class Definition
 
     /**
      * @return array|LazyProperty[]
+     * 
+     * @api
      */
     public function getLazyProperties()
     {
@@ -64,6 +73,8 @@ class Definition
 
     /**
      * @return array
+     * 
+     * @api
      */
     public function getMethodReplacements()
     {

@@ -4,6 +4,9 @@ namespace Isolate\LazyObjects\Proxy;
 
 use Isolate\LazyObjects\Exception\InvalidArgumentException;
 
+/**
+ * @api
+ */
 class ClassName
 {
     /**
@@ -35,6 +38,8 @@ class ClassName
     /**
      * @param $object
      * @return bool
+     * 
+     * @api
      */
     public function itFits($object)
     {
