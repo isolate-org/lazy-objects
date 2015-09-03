@@ -4,6 +4,9 @@ namespace Isolate\LazyObjects\Proxy;
 
 use Isolate\LazyObjects\Exception\InvalidArgumentException;
 
+/**
+ * @api
+ */
 class Method
 {
     /**
@@ -36,6 +39,8 @@ class Method
     /**
      * @param $method
      * @return bool
+     * 
+     * @api
      */
     public function isEqualTo($method)
     {

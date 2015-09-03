@@ -4,6 +4,9 @@ namespace Isolate\LazyObjects\Proxy\Method;
 
 use Isolate\LazyObjects\WrappedObject;
 
+/**
+ * @api
+ */
 interface Replacement
 {
     /**
@@ -14,6 +17,8 @@ interface Replacement
      * @param string $methodName
      * @param array $params
      * @return mixed
+     * 
+     * @api
      */
     public function execute(WrappedObject $proxy, $methodName, array $params = []);
 }
