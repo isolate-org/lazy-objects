@@ -1,6 +1,7 @@
 #Lazy Objects
 
 [![Build Status](https://travis-ci.org/isolate-org/lazy-objects.svg?branch=master)](https://travis-ci.org/isolate-org/lazy-objects)
+[![Windows Build status](https://ci.appveyor.com/api/projects/status/exqylcro0g0vnb9x?svg=true)](https://ci.appveyor.com/project/norzechowicz/lazy-objects)
 [![Latest Stable Version](https://poser.pugx.org/isolate/lazy-objects/v/stable.svg)](https://packagist.org/packages/isolate/lazy-objects)
 [![Total Downloads](https://poser.pugx.org/isolate/lazy-objects/downloads.svg)](https://packagist.org/packages/isolate/lazy-objects)
 [![Latest Unstable Version](https://poser.pugx.org/isolate/lazy-objects/v/unstable.svg)](https://packagist.org/packages/isolate/lazy-objects)
